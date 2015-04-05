@@ -1,3 +1,12 @@
+/****************************************************************************/
+/*
+ *  $Version: 0.1
+ *  $Date:    2015-04-05
+ *  $Author:  Jeff Chen
+ *  $Email:   yonghongchen602@gmail.com  
+ *
+ */
+/****************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -60,4 +69,10 @@ char *mystrcpy(char *dest, const char *src)
 	memcpy(dest, src, strlen(src) + 1);
 	
 	return dest;
+}
+
+int main()
+{	
+	printf("empty main function...\n");
+	return 0;
 }
