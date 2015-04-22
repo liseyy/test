@@ -33,7 +33,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 bin_PROGRAMS = swap$(EXEEXT) str$(EXEEXT) arrtest$(EXEEXT) \
-	divide$(EXEEXT)
+	divide$(EXEEXT) abs$(EXEEXT)
 subdir = misc
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -46,6 +46,9 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
+am_abs_OBJECTS = abs.$(OBJEXT)
+abs_OBJECTS = $(am_abs_OBJECTS)
+abs_LDADD = $(LDADD)
 am_arrtest_OBJECTS = arrtest.$(OBJEXT)
 arrtest_OBJECTS = $(am_arrtest_OBJECTS)
 arrtest_LDADD = $(LDADD)
@@ -66,10 +69,10 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(arrtest_SOURCES) $(divide_SOURCES) $(str_SOURCES) \
-	$(swap_SOURCES)
-DIST_SOURCES = $(arrtest_SOURCES) $(divide_SOURCES) $(str_SOURCES) \
-	$(swap_SOURCES)
+SOURCES = $(abs_SOURCES) $(arrtest_SOURCES) $(divide_SOURCES) \
+	$(str_SOURCES) $(swap_SOURCES)
+DIST_SOURCES = $(abs_SOURCES) $(arrtest_SOURCES) $(divide_SOURCES) \
+	$(str_SOURCES) $(swap_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -164,6 +167,7 @@ swap_SOURCES = swap.c
 str_SOURCES = str.c
 arrtest_SOURCES = arrtest.c
 divide_SOURCES = divide.c
+abs_SOURCES = abs.c
 all: all-am
 
 .SUFFIXES:
@@ -235,6 +239,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+abs$(EXEEXT): $(abs_OBJECTS) $(abs_DEPENDENCIES) $(EXTRA_abs_DEPENDENCIES) 
+	@rm -f abs$(EXEEXT)
+	$(LINK) $(abs_OBJECTS) $(abs_LDADD) $(LIBS)
 arrtest$(EXEEXT): $(arrtest_OBJECTS) $(arrtest_DEPENDENCIES) $(EXTRA_arrtest_DEPENDENCIES) 
 	@rm -f arrtest$(EXEEXT)
 	$(LINK) $(arrtest_OBJECTS) $(arrtest_LDADD) $(LIBS)
@@ -254,6 +261,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/abs.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/arrtest.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/divide.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/str.Po@am__quote@
